@@ -108,7 +108,70 @@ namespace WebAPI.Controllers
             
         }
 
+        [HttpPut("{clientId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+
+        public IActionResult UpdateClient(int clientId, [FromBody]ClientDto clientUpdate)
+        {
+
+            var clienteUpdate = _clientRepository.GetClient(clientId);
+
+
+            if (clientUpdate == null)
+                return BadRequest(ModelState);
+
+            if (clientId != clientUpdate.Id)
+                return BadRequest(ModelState);
+
+            if (!_clientRepository.ClientExists(clientId))
+                return NotFound();
+
+            if(!ModelState.IsValid)
+                return BadRequest();
+
+            var clientMap = _mapper.Map<Client>(clienteUpdate);
+
+            if (!_clientRepository.UpdateClient(clientMap))
+            {
+                ModelState.AddModelError("", "Something went wrong updating client");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
+
+        }
+
+        [HttpDelete("{clientId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+
+        public IActionResult DeleteClient(int clientId)
+        {
+           
+            if (!_clientRepository.ClientExists(clientId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var clientToDelete = _clientRepository.GetClient(clientId);
+
+
+            if (!_clientRepository.DeleteClient(clientToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong updating client");
+                return StatusCode(500, ModelState);
+            }
+            
+            return NoContent();
+
+        }
+
+
+
     }
 
-   
+
 }

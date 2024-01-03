@@ -14,7 +14,10 @@ namespace WebAPI.Interfaces
 
         bool CreateClient(Client client);
 
+        bool UpdateClient(Client client);
         bool Save();
+
+        bool DeleteClient(Client client);
 
     }
 }

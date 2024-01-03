@@ -14,6 +14,7 @@ namespace WebAPI.HelperFolder
             CreateMap<CountryDto, Country>();
             CreateMap<TicketsDto, Tickets>();
             CreateMap<UserDto, User>();
+            CreateMap<ClientDto, Client>();
         }
     }
 }
