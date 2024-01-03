@@ -11,6 +11,9 @@ namespace WebAPI.Interfaces
         bool CountryExists(int id);
 
         bool CreateContry(Country country);
+
+        bool UpdateCountry(Country country);
         bool Save();
-    }
+        bool DeleteCountry(Country country);
+    }   
 }
